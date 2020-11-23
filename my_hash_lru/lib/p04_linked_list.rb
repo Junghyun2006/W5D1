@@ -48,7 +48,7 @@ class LinkedList
   end
 
   def get(key)
-    return @head.val if @head.key == key
+
     current_node = @head
 
     until current_node == nil
@@ -60,6 +60,14 @@ class LinkedList
   end
 
   def include?(key)
+    current_node = @head
+
+    until current_node == nil
+      return true if current_node.key == key
+      current_node = current_node.next
+    end
+
+    false
   end
 
   def append(key, val)
@@ -83,9 +91,28 @@ class LinkedList
   end
 
   def update(key, val)
+    current_node = @head
+
+    until current_node == nil
+      return current_node.val = val if current_node.key == key
+      current_node = current_node.next
+    end
+
   end
 
   def remove(key)
+    current_node = @head
+
+    until current_node == nil
+      if current_node.key == key
+        prev_node = current_node.prev
+        next_node = current_node.next
+
+        next_node.prev = prev_node
+        prev_node.next = next_node
+      end
+      current_node = current_node.next
+    end
   end
 
   def each
