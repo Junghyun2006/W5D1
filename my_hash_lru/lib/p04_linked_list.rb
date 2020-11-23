@@ -1,3 +1,5 @@
+require "byebug"
+
 class Node
   attr_reader :key
   attr_accessor :val, :next, :prev
@@ -46,7 +48,15 @@ class LinkedList
   end
 
   def get(key)
-    
+    return @head.val if @head.key == key
+    current_node = @head
+
+    until current_node == nil
+      return current_node.val if current_node.key == key
+      current_node = current_node.next
+    end
+
+    nil
   end
 
   def include?(key)
@@ -54,15 +64,21 @@ class LinkedList
 
   def append(key, val)
     if @head.key == nil 
-      # @head.next = nil
-      @head = Node.new(key,val)
-      @tail = Node.new(key,val)
+      new_head = Node.new(key,val)
+      @head = new_head
+      @head.next = @tail
+      @tail = new_head
+    elsif @tail.key == nil
+      new_tail = Node.new(key,val)
+      @head.next = new_tail
+      @tail = new_tail
+      @tail.prev = @head
     else
       prev_tail = @tail
-      @tail = Node.new(key,val)
-      @tail.prev = prev_tail
-      @tail.next = nil
-      prev_tail.next = @tail
+      new_tail = Node.new(key,val)
+      prev_tail.next = new_tail
+      new_tail.prev = prev_tail
+      @tail = new_tail
     end
   end
 
